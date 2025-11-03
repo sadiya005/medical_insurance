@@ -5,7 +5,9 @@ import re
 import matplotlib.pyplot as plt
 from PIL import Image
 import base64
+import os
 
+API_URL = os.getenv("API_URL", "http://localhost:8000")
 
 # ---------------------------#
 # 🎨 Page Config & Title
@@ -16,8 +18,12 @@ st.set_page_config(
     layout="centered"
 )
 
+# Get the correct path relative to this file
+image_path = os.path.join(os.path.dirname(__file__), "Medical Insurance BG.jpg")
+
+
 # Encode the image to base64
-with open("Medical Insurance BG.jpg", "rb") as f:
+with open(image_path, "rb") as f:
     img_bytes = f.read()
     encoded = base64.b64encode(img_bytes).decode()
 
@@ -61,22 +67,22 @@ st.subheader("🧍‍♀️ Personal Information")
 
 col1, col2 = st.columns(2)
 with col1:
-    name = st.text_input("Full Name")
-    age = st.number_input("Age", min_value=1, max_value=120)
-    sex = st.selectbox("Gender", ["male", "female", "others"])
-    region = st.selectbox("Region", ["northeast", "northwest", "southeast", "southwest"])
+    name = st.text_input("Full Name", key="name")
+    age = st.number_input("Age", min_value=1, max_value=120, key="age")
+    sex = st.selectbox("Gender", ["male", "female", "others"],index=0, key="sex")
+    region = st.selectbox("Region", ["northeast", "northwest", "southeast", "southwest"],index=0,key="region")
 with col2:
-    phone = st.text_input("Phone Number (10 digits)")
-    email = st.text_input("Email Address")
-    children = st.number_input("Children", min_value=0, step=1)
-    smoker = st.radio("Do you smoke?", ["Yes", "No"])
+    phone = st.text_input("Phone Number (10 digits)",key="phone")
+    email = st.text_input("Email Address", key="email")
+    children = st.number_input("Children", min_value=0, step=1, key="children")
+    smoker = st.radio("Do you smoke?", ["Yes", "No"], index=1, key="smoker")
 
 # ---------------------------#
 # ⚕️ Health Info
 # ---------------------------#
 st.subheader("⚕️ Health Details")
-weight = st.number_input("Weight (kg)", min_value=1)
-height = st.number_input("Height (m)", min_value=0.5, max_value=3.0)
+weight = st.number_input("Weight (kg)", min_value=1, key="weight")
+height = st.number_input("Height (m)", min_value=0.5, max_value=3.0, key="height")
 bmi = round(weight / (height ** 2), 2) if height > 0 else None
 if bmi:
     st.info(f"Your BMI: **{bmi}**")
@@ -114,7 +120,7 @@ if st.button("🔍 Predict My Insurance Charges"):
     }
 
     try:
-        response = requests.post("http://127.0.0.1:8000/predict", json=input_data)
+        response = requests.post(f"{API_URL}/predict", json=input_data)
         if response.status_code == 200:
             result = response.json()
             charges = result['predicted_charges']
