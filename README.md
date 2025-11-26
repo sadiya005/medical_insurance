@@ -46,8 +46,12 @@ This demonstrates a complete data science workflow, highlighting practical appli
 - Designed project for **real-time prediction** scenarios  
 
 ### 6️⃣ Deployment
-- Created **Dockerfile** to containerize the application  
-- Prepared for deployment (planned on cloud or local server)  
+-  Containerised the application using **Docker**
+- Deployed the container on **Render** for cloud-based real-time predictions
+- Users can access the **interactive dashboard** online via the deployed URL
+- FastAPI backend runs inside the container for serving prediction requests
+
+Live deployment link: [https://insurance-prediction-latest.onrender.com]
 
 ---
 
@@ -82,9 +86,9 @@ This demonstrates a complete data science workflow, highlighting practical appli
 ---
 
 ## 🚀 Next Steps
-- Deploy the application for **real-time predictions** on cloud platforms  
-- Enhance the dashboard with additional visual insights  
-- Explore alternative models and ensemble techniques for improved accuracy  
+- Enhance the dashboard with additional visual insights
+- Explore alternative models and ensemble techniques for improved accuracy
+- Monitor and optimize deployed service for performance and scalability  
 
 ---
 
